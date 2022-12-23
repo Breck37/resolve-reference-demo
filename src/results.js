@@ -1,3 +1,4 @@
+import { buildFederatedSchema } from "@apollo/federation";
 import { ApolloServer, gql } from "apollo-server";
 
 const port = 4002;
@@ -44,7 +45,9 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  schema: buildFederatedSchema({ typeDefs, resolvers }),
+});
 
 server.listen({ port }).then(({ url }) => {
   console.log(`🚀 Results service ready at: ${url} 🚀🚀🚀🚀`);
