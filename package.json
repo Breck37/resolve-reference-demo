@@ -1,0 +1,26 @@
+{
+  "name": "graphql-server",
+  "version": "1.0.0",
+  "description": "sibi-demos-graph",
+  "main": "index.js",
+  "author": "Breck37",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "compile": "tsc",
+    "start": "npm run compile && nodemon ./dist/index.js",
+    "server": "concurrently -k npm:server:*",
+    "server:riders": "nodemon src/riders.js",
+    "server:results": "nodemon src/results.js",
+    "server:graphql": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@apollo/federation": "^0.38.1",
+    "@apollo/gateway": "^2.2.2",
+    "@apollo/server": "^4.3.0",
+    "apollo-server": "^3.11.1",
+    "graphql": "^16.6.0",
+    "node-fetch": "^3.3.0"
+  }
+}
