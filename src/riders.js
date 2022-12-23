@@ -44,7 +44,9 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  schema: buildFederatedSchema({ typeDefs, resolvers }),
+});
 
 server.listen({ port }).then(({ url }) => {
   console.log(`🚀 Riders service ready at: ${url} 🚀🚀🚀🚀`);
