@@ -6,14 +6,14 @@ const port = 4001;
 const apiUrl = "http://localhost:4000";
 
 const typeDefs = gql`
-  type Rider @key(fields: "id") {
+  type Rider {
     id: ID!
     name: String
     number: Int
     bike: String
   }
 
-  extend type Query {
+  type Query {
     riders: [Rider]
   }
 `;
@@ -40,14 +40,6 @@ const riders = [
 ];
 
 const resolvers = {
-  Rider: {
-    __resolveReference(ref) {
-      return riders.find((rider) => {
-        console.log({ rider, ref });
-        return rider.id === Number(ref.id);
-      });
-    },
-  },
   Query: {
     riders() {
       return riders;
@@ -55,9 +47,7 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({
-  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
-});
+const server = new ApolloServer({ typeDefs, resolvers });
 
 server.listen({ port }).then(({ url }) => {
   console.log(`🚀 Riders service ready at: ${url} 🚀🚀🚀🚀`);
