@@ -6,12 +6,17 @@ const port = 4002;
 export const typeDefs = gql`
   type Result {
     id: ID!
+    rider: Rider
     position: Int
     race: String
     points: Int
   }
 
-  type Query {
+  extend type Rider @key(fields: "id") {
+    id: ID! @external
+  }
+
+  extend type Query {
     results: [Result]
   }
 `;
@@ -22,22 +27,30 @@ const results = [
     position: 1,
     race: "Anaheim",
     points: 26,
+    rider: 1,
   },
   {
     id: "2",
     position: 2,
     race: "Anaheim",
     points: 23,
+    rider: 2,
   },
   {
     id: "3",
     position: 3,
     race: "Anaheim",
     points: 21,
+    rider: 3,
   },
 ];
 
 const resolvers = {
+  Result: {
+    rider(result) {
+      return { id: result.rider, __typename: "Rider" };
+    },
+  },
   Query: {
     results() {
       return results;
