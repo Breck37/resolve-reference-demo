@@ -3,15 +3,15 @@ import { buildSubgraphSchema } from "@apollo/federation";
 
 const port = 4001;
 
-export const typeDefs = gql`
-  type Rider {
+const typeDefs = gql`
+  type Rider @key(fields: "id") {
     id: ID!
     name: String
     number: Int
     bike: String
   }
 
-  type Query {
+  extend type Query {
     riders: [Rider]
   }
 `;
@@ -38,6 +38,11 @@ const riders = [
 ];
 
 const resolvers = {
+  Rider: {
+    __resolveReference(rider) {
+      return riders.find((racer) => racer.id === parseInt(rider.id));
+    },
+  },
   Query: {
     riders() {
       return riders;
