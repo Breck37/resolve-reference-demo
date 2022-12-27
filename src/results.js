@@ -1,23 +1,17 @@
 import { ApolloServer, gql } from "apollo-server";
-import { buildFederatedSchema } from "@apollo/federation";
+import { buildFederatedSchema, buildSubgraphSchema } from "@apollo/federation";
 
 const port = 4002;
 
-const typeDefs = gql`
+export const typeDefs = gql`
   type Result {
     id: ID!
-    rider: Rider
     position: Int
     race: String
     points: Int
   }
 
-  extend type Rider @key(fields: "id") {
-    id: ID! @external
-    results: [Result]
-  }
-
-  extend type Query {
+  type Query {
     results: [Result]
   }
 `;
@@ -47,23 +41,6 @@ const results = [
 ];
 
 const resolvers = {
-  Rider: {
-    results(rider) {
-      return results.filter((result) => {
-        console.log({
-          rider,
-          result,
-          cond: result.rider === parseInt(rider.id),
-        });
-        return result.rider === parseInt(rider.id);
-      });
-    },
-  },
-  Result: {
-    rider(result) {
-      return { id: result.rider, __typename: "Rider" };
-    },
-  },
   Query: {
     results() {
       return results;
@@ -71,9 +48,7 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({
-  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
-});
+const server = new ApolloServer({ typeDefs, resolvers });
 
 server.listen({ port }).then(({ url }) => {
   console.log(`🚀 Results service ready at: ${url} 🚀🚀🚀🚀`);
