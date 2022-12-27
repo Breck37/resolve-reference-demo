@@ -1,11 +1,8 @@
 import { ApolloServer, gql } from "apollo-server";
-import { buildFederatedSchema } from "@apollo/federation";
-import fetch from "node-fetch";
 
 const port = 4001;
-const apiUrl = "http://localhost:4000";
 
-const typeDefs = gql`
+export const typeDefs = gql`
   type Rider {
     id: ID!
     name: String

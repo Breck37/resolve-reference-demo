@@ -2,7 +2,7 @@ import { ApolloServer, gql } from "apollo-server";
 
 const port = 4002;
 
-const typeDefs = gql`
+export const typeDefs = gql`
   type Result {
     id: ID!
     position: Int
