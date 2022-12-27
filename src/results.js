@@ -14,6 +14,7 @@ export const typeDefs = gql`
 
   extend type Rider @key(fields: "id") {
     id: ID! @external
+    results: [Result]
   }
 
   extend type Query {
@@ -43,12 +44,61 @@ const results = [
     points: 21,
     rider: 3,
   },
+  {
+    id: "4",
+    position: 1,
+    race: "Phoenix",
+    points: 26,
+    rider: 3,
+  },
+  {
+    id: "5",
+    position: 2,
+    race: "Phoenix",
+    points: 23,
+    rider: 2,
+  },
+  {
+    id: "6",
+    position: 3,
+    race: "Phoenix",
+    points: 21,
+    rider: 1,
+  },
+  {
+    id: "7",
+    position: 1,
+    race: "Salt Lake City",
+    points: 26,
+    rider: 2,
+  },
+  {
+    id: "8",
+    position: 2,
+    race: "Salt Lake City",
+    points: 23,
+    rider: 3,
+  },
+  {
+    id: "9",
+    position: 3,
+    race: "Salt Lake City",
+    points: 21,
+    rider: 1,
+  },
 ];
 
 const resolvers = {
   Result: {
     rider(result) {
       return { id: result.rider, __typename: "Rider" };
+    },
+  },
+  Rider: {
+    results(rider) {
+      return results.filter((result) => {
+        return result.rider === parseInt(rider.id);
+      });
     },
   },
   Query: {
