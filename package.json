@@ -12,8 +12,7 @@
     "start": "npm run compile && nodemon ./dist/index.js",
     "server": "concurrently -k npm:server:*",
     "server:riders": "nodemon src/riders.js",
-    "server:results": "nodemon src/results.js",
-    "server:graphql": "nodemon src/index.js"
+    "server:results": "nodemon src/results.js"
   },
   "dependencies": {
     "@apollo/federation": "^0.38.1",
