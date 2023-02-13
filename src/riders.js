@@ -1,4 +1,5 @@
 import { ApolloServer, gql } from "apollo-server";
+import { buildSubgraphSchema } from "@apollo/federation";
 
 const port = 4001;
 
@@ -44,7 +45,9 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  schema: buildSubgraphSchema({ typeDefs, resolvers }),
+});
 
 server.listen({ port }).then(({ url }) => {
   console.log(`🚀 Riders service ready at: ${url} 🚀🚀🚀🚀`);
